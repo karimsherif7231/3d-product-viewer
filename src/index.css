@@ -49,7 +49,7 @@ button {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: #737373;
+  color: #595959;
 }
 
 h1 {
@@ -61,7 +61,7 @@ h1 {
 
 .hint {
   margin: 0;
-  color: #737373;
+  color: #595959;
   font-size: 14px;
 }
 
@@ -80,13 +80,43 @@ h1 {
   touch-action: none;
 }
 
+.viewer-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
 .loading {
   padding: 10px 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   font-size: 13px;
   color: #444;
   white-space: nowrap;
+}
+
+.load-viewer-button {
+  border: 1px solid #c8c8c8;
+  border-radius: 999px;
+  padding: 10px 16px;
+  background: #fff;
+  color: #171717;
+  cursor: pointer;
+}
+
+.load-viewer-button:hover {
+  background: #f0f0ee;
+}
+
+.load-viewer-button:focus-visible,
+.rotate-button:focus-visible,
+.color-button:focus-visible {
+  outline: 3px solid #171717;
+  outline-offset: 3px;
 }
 
 .controls {
@@ -122,7 +152,7 @@ h1 {
   border: 2px solid transparent;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 0 0 1px #d4d4d4;
+  box-shadow: 0 0 0 1px #c8c8c8;
   transition: transform 0.15s ease;
 }
 
@@ -137,7 +167,7 @@ h1 {
 }
 
 .rotate-button {
-  border: 1px solid #d4d4d4;
+  border: 1px solid #c8c8c8;
   border-radius: 999px;
   padding: 10px 16px;
   background: #fff;
@@ -154,7 +184,7 @@ h1 {
   width: 100%;
   margin: 14px auto 0;
   font-size: 12px;
-  color: #737373;
+  color: #595959;
 }
 
 @media (max-width: 700px) {

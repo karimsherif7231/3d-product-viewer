@@ -17,9 +17,7 @@ function App() {
   const [showScene, setShowScene] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    );
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const updateMotion = () => {
       setReducedMotion(mediaQuery.matches);
@@ -28,12 +26,7 @@ function App() {
     updateMotion();
     mediaQuery.addEventListener("change", updateMotion);
 
-    const timeoutId = window.setTimeout(() => {
-      setShowScene(true);
-    }, 1000);
-
     return () => {
-      window.clearTimeout(timeoutId);
       mediaQuery.removeEventListener("change", updateMotion);
     };
   }, []);
@@ -68,13 +61,26 @@ function App() {
             />
           </Suspense>
         ) : (
-          <div className="loading" role="status" aria-live="polite">
-            Preparing 3D viewer...
+          <div className="viewer-placeholder">
+            <p className="loading" role="status">
+              Interactive 3D viewer
+            </p>
+
+            <button
+              type="button"
+              className="load-viewer-button"
+              onClick={() => setShowScene(true)}
+            >
+              Load 3D viewer
+            </button>
           </div>
         )}
       </section>
 
-      <section className="controls" aria-label="Product controls">
+      <section
+        className="controls"
+        aria-label="Product controls"
+      >
         <div className="control-group">
           <span className="label">Color</span>
 

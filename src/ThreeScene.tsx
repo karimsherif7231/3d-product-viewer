@@ -40,7 +40,9 @@ function Headphones({ color }: { color: string }) {
 function Loading() {
   return (
     <Html center>
-      <div className="loading">Loading 3D...</div>
+      <div className="loading" role="status" aria-live="polite">
+        Loading 3D...
+      </div>
     </Html>
   );
 }
@@ -59,16 +61,15 @@ export default function ThreeScene({
   return (
     <Canvas
       camera={{ position: [0, 0, 5], fov: 45 }}
-      dpr={[1, 1.5]}
+      dpr={[1, 1.15]}
       frameloop="demand"
-      shadows
+      performance={{ min: 0.5 }}
     >
       <ambientLight intensity={1.5} />
 
       <directionalLight
         position={[5, 5, 5]}
         intensity={2}
-        castShadow
       />
 
       <Suspense fallback={<Loading />}>
