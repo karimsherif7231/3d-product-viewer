@@ -14,6 +14,7 @@ function App() {
   const [color, setColor] = useState<ColorKey>("black");
   const [autoRotate, setAutoRotate] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [showScene, setShowScene] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(
@@ -27,7 +28,12 @@ function App() {
     updateMotion();
     mediaQuery.addEventListener("change", updateMotion);
 
+    const timeoutId = window.setTimeout(() => {
+      setShowScene(true);
+    }, 1000);
+
     return () => {
+      window.clearTimeout(timeoutId);
       mediaQuery.removeEventListener("change", updateMotion);
     };
   }, []);
@@ -43,17 +49,32 @@ function App() {
         <p className="hint">Drag to rotate · Scroll to zoom</p>
       </header>
 
-      <section className="viewer">
-        <Suspense fallback={<div className="loading">Loading 3D...</div>}>
-          <ThreeScene
-            color={COLORS[color]}
-            autoRotate={autoRotate}
-            reducedMotion={reducedMotion}
-          />
-        </Suspense>
+      <section
+        className="viewer"
+        aria-label="Interactive 3D product viewer"
+      >
+        {showScene ? (
+          <Suspense
+            fallback={
+              <div className="loading" role="status" aria-live="polite">
+                Loading 3D...
+              </div>
+            }
+          >
+            <ThreeScene
+              color={COLORS[color]}
+              autoRotate={autoRotate}
+              reducedMotion={reducedMotion}
+            />
+          </Suspense>
+        ) : (
+          <div className="loading" role="status" aria-live="polite">
+            Preparing 3D viewer...
+          </div>
+        )}
       </section>
 
-      <section className="controls">
+      <section className="controls" aria-label="Product controls">
         <div className="control-group">
           <span className="label">Color</span>
 
@@ -61,27 +82,31 @@ function App() {
             {(Object.keys(COLORS) as ColorKey[]).map((key) => (
               <button
                 key={key}
+                type="button"
                 className={`color-button ${
                   color === key ? "selected" : ""
                 }`}
                 style={{ backgroundColor: COLORS[key] }}
                 onClick={() => setColor(key)}
                 aria-label={`Change color to ${key}`}
+                aria-pressed={color === key}
               />
             ))}
           </div>
         </div>
 
         <button
+          type="button"
           className="rotate-button"
           onClick={() => setAutoRotate((value) => !value)}
+          aria-pressed={autoRotate}
         >
           {autoRotate ? "Pause rotation" : "Auto rotate"}
         </button>
       </section>
 
       {reducedMotion && (
-        <p className="motion-note">
+        <p className="motion-note" role="status">
           Reduced motion is enabled, so automatic rotation is disabled.
         </p>
       )}
